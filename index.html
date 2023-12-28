@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ships Game</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(8, 50px);
+            grid-gap: 2px;
+            margin: 20px auto;
+        }
+
+        .cell {
+            width: 50px;
+            height: 50px;
+            border: 1px solid #333;
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ships Game</h1>
+    <div id="message"></div>
+    <div class="grid" onclick="handleClick(event)">
+        <!-- You can customize the grid size based on your preference -->
+        <!-- This example uses an 8x8 grid -->
+        <div class="cell" data-index="0"></div>
+        <div class="cell" data-index="1"></div>
+        <div class="cell" data-index="2"></div>
+        <div class="cell" data-index="3"></div>
+        <div class="cell" data-index="4"></div>
+        <div class="cell" data-index="5"></div>
+        <div class="cell" data-index="6"></div>
+        <div class="cell" data-index="7"></div>
+        <!-- Repeat for additional rows -->
+    </div>
+
+    <script>
+        const shipLocation = Math.floor(Math.random() * 64); // Randomly place the ship on the grid
+        let gameBoard = Array(64).fill(false);
+        let gameOver = false;
+
+        function handleClick(event) {
+            if (gameOver) return;
+
+            const cellIndex = event.target.dataset.index;
+            const isHit = checkHit(cellIndex);
+
+            if (isHit) {
+                event.target.innerText = 'X';
+                document.getElementById('message').innerText = 'You sunk the ship! Game over.';
+                gameOver = true;
+            } else {
+                event.target.innerText = 'O';
+            }
+        }
+
+        function checkHit(cellIndex) {
+            if (cellIndex == shipLocation) {
+                return true; // It's a hit!
+            } else {
+                return false; // It's a miss
+            }
+        }
+    </script>
+</body>
+</html>
